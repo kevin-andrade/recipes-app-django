@@ -71,18 +71,24 @@
 
     {% if is_detail_page is True %}
         <div class="recipe-preparation-steps">
-            <p>{{ recipe.preparation_steps | linebreaksbr }}</p>
+            {% if recipe.preparation_steps_is_html is True %}
+                <p>{{ recipe.preparation_steps | safe }}</p>
+            {% else %}
+                <p>{{ recipe.preparation_steps | linebreaksbr }}</p>
+            {% endif %}
         </div>
     {% endif %}
 
     {% if is_detail_page is not True %}
-    <footer class="recipe-footer">
-        <a class="recipe-read-more button button-dark button-full-width" href="{% url 'recipes:recipe' recipe.id %}">
-            <i class="fas fa-eye"></i>
-            <span>ver mais...</span>
-        </a>
-    </footer>
+        <footer class="recipe-footer">
+            <a class="recipe-read-more button button-dark button-full-width" href="{% url 'recipes:recipe' recipe.id %}">
+                <i class="fas fa-eye"></i>
+                <span>ver mais...</span>
+            </a>
+        </footer>
     {% endif %}
+
+
     
 
 </div>
