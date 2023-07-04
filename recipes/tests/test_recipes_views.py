@@ -22,7 +22,7 @@ class RecipeViewsTest(RecipeTestBase):
             '<h1>Sem receitas publicadas no momento 🥲</h1>',
             response.content.decode('utf-8')
         )
-    
+
     def test_recipes_home_template_loads_recipes(self):
         # Need a recipe for this test
         self.make_recipe()
@@ -47,6 +47,21 @@ class RecipeViewsTest(RecipeTestBase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_recipes_template_recipe_loads_correct_recipe(self):
+        # Need a recipe for this test
+        needed_title = 'This is a title recipe - It load a one recipe'
+        self.make_recipe(title=needed_title)
+
+        response = self.client.get(reverse(
+            'recipes:recipe', kwargs={'id': 1}
+        ))
+        content = response.content.decode('utf-8')
+
+        # Check if one recipe exists
+        self.assertIn(needed_title, content)
+        # self.assertIn('10 Minutos', content)
+        # self.assertIn('5 Porções', content)
+
     def test_recipes_view_category_is_correct(self):
         view = resolve(reverse(
             'recipes:category', kwargs={'category_id': 1})
@@ -59,3 +74,15 @@ class RecipeViewsTest(RecipeTestBase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_recipes_category_template_loads_correct_recipe(self):
+        # Need a recipe for this test
+        needed_title = 'This is a title recipe'
+        self.make_recipe(title=needed_title)
+
+        response = self.client.get(reverse(
+            'recipes:category', kwargs={'category_id': 1}
+        ))
+        content = response.content.decode('utf-8')
+
+        # Check if one recipe exists
+        self.assertIn(needed_title, content)
