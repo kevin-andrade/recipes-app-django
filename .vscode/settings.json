@@ -65,7 +65,7 @@
         "typescript": "typescriptreact"
     },
     "explorer.compactFolders": false,
-    "window.zoomLevel": 2,
+    "window.zoomLevel": 1,
     "git.autofetch": true,
     "python.formatting.provider": "none"
 }

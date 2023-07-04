@@ -23,6 +23,19 @@ class RecipeViewsTest(RecipeTestBase):
             response.content.decode('utf-8')
         )
 
+    def test_recipes_home_template_dont_load_recipes_not_published(self):
+        '''Test recipe is published False'''
+        # Need a recipe for this test
+        self.make_recipe(is_published=False)
+
+        response = self.client.get(reverse('recipes:home'))
+
+        # Check if one recipe exists if not show message
+        self.assertIn(
+            '<h1>Sem receitas publicadas no momento 🥲</h1>',
+            response.content.decode('utf-8')
+        )
+
     def test_recipes_home_template_loads_recipes(self):
         # Need a recipe for this test
         self.make_recipe()
@@ -62,6 +75,18 @@ class RecipeViewsTest(RecipeTestBase):
         # self.assertIn('10 Minutos', content)
         # self.assertIn('5 Porções', content)
 
+    def test_recipes_detail_template_dont_load_recipe_not_published(self):
+        '''Test recipe is published False'''
+        # Need a recipe for this test
+        recipe = self.make_recipe(is_published=False)
+
+        response = self.client.get(reverse(
+            'recipes:recipe', kwargs={'id': recipe.id}
+        ))
+
+        # Check if one recipe is not published
+        self.assertEqual(response.status_code, 404)
+
     def test_recipes_view_category_is_correct(self):
         view = resolve(reverse(
             'recipes:category', kwargs={'category_id': 1})
@@ -86,3 +111,15 @@ class RecipeViewsTest(RecipeTestBase):
 
         # Check if one recipe exists
         self.assertIn(needed_title, content)
+
+    def test_recipes_category_template_dont_load_recipe_not_published(self):
+        '''Test recipe is published False'''
+        # Need a recipe for this test
+        recipe = self.make_recipe(is_published=False)
+
+        response = self.client.get(reverse(
+            'recipes:category', kwargs={'category_id': recipe.category.id}
+        ))
+
+        # Check if one recipe is not published
+        self.assertEqual(response.status_code, 404)
