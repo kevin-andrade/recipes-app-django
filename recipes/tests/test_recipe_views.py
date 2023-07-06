@@ -60,7 +60,7 @@ class RecipeViewsTest(RecipeTestBase):
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_recipe_detail_template_loads_correct_recipe(self):
+    def test_recipe_detail_template_loadtest_recipe_ses_correct_recipe(self):
         # Need a recipe for this test
         needed_title = 'This is a title recipe - It load a one recipe'
         self.make_recipe(title=needed_title)
@@ -73,7 +73,7 @@ class RecipeViewsTest(RecipeTestBase):
         # Check if one recipe exists
         self.assertIn(needed_title, content)
         # self.assertIn('10 Minutos', content)
-        # self.assertIn('5 Porções', content)
+        # self.assertIotted names into their objects. ..n('5 Porções', content)
 
     def test_recipe_detail_template_dont_load_recipe_not_published(self):
         '''Test recipe is published False'''
@@ -93,7 +93,7 @@ class RecipeViewsTest(RecipeTestBase):
         )
         self.assertIs(view.func, views.category)
 
-    def test_recipes_view_category_returns_404_if_no_recipes(self):
+    def test_recipe_view_category_returns_404_if_no_recipes(self):
         response = self.client.get(reverse(
             'recipes:category', kwargs={'category_id': 1000})
         )
@@ -122,4 +122,17 @@ class RecipeViewsTest(RecipeTestBase):
         ))
 
         # Check if one recipe is not published
+        self.assertEqual(response.status_code, 404)
+
+    def test_recipe_view_search_uses_correct_function(self):
+        resolved = resolve(reverse('recipes:search'))
+        self.assertIs(resolved.func, views.search)
+
+    def test_recipe_search_views_loads_correct_template(self):
+        response = self.client.get(reverse('recipes:search') + '?q=test')
+        self.assertTemplateUsed(response, 'recipes/pages/search.html')
+        ...
+
+    def test_recipe_search_raises_404_if_no_search_term(self):
+        response = self.client.get(reverse('recipes:search'))
         self.assertEqual(response.status_code, 404)
