@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from django.contrib.messages import constants
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -141,3 +142,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Message
+
+MESSAGE_TAGS = {
+    constants.ERROR: 'message-error',
+    constants.SUCCESS: 'message-success',
+    constants.WARNING: 'message-warning',
+    constants.INFO: 'message-info',
+    constants.DEBUG: 'message-debug',
+}
