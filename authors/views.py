@@ -1,5 +1,10 @@
 from django.shortcuts import render
+from authors.forms import RegisterForm
 
 
 def register(request):
-    return render(request, 'authors/pages/register.html')
+    form = RegisterForm()
+
+    return render(request, 'authors/pages/register.html', context={
+        'form': form,
+    })
