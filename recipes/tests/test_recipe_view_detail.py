@@ -14,7 +14,14 @@ class RecipeViewDetailTest(RecipeTestBase):
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_recipe_detail_template_loadtest_recipe_ses_correct_recipe(self):
+    def test_recipe_detail_views_loads_correct_template(self):
+        # Need recipe.id for this test
+        recipe = self.make_recipe()
+        response = self.client.get(reverse(
+            'recipes:recipe', kwargs={'id': recipe.id}))
+        self.assertTemplateUsed(response, 'recipes/pages/recipe-view.html')
+
+    def test_recipe_detail_template_loads_correct_recipe(self):
         # Need a recipe for this test
         needed_title = 'This is a title recipe - It load a one recipe'
         self.make_recipe(title=needed_title)
@@ -26,7 +33,7 @@ class RecipeViewDetailTest(RecipeTestBase):
 
         # Check if one recipe exists
         self.assertIn(needed_title, content)
-        # self.assertIn('10 Minutos', content)
+        self.assertIn('10 Minutos', content)
         # self.assertIotted names into their objects. ..n('5 Porções', content)
 
     def test_recipe_detail_template_dont_load_recipe_not_published(self):

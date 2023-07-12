@@ -1,5 +1,7 @@
 from django.urls import resolve, reverse
+from unittest.mock import patch
 from recipes import views
+
 from .test_recipe_base import RecipeTestBase
 
 
@@ -49,3 +51,21 @@ class RecipeViewHomeTest(RecipeTestBase):
         # self.assertIn('10 Minutos', content)
         # self.assertIn('5 Porções', content)
         self.assertEqual(len(response_context_recipes), 1)
+
+    def test_recipe_home_view_is_paginated(self):
+        # Need more recipe to increase the pages
+        for i in range(20):
+            kwargs = {'author_data': {'username': f'us{i}'}, 'slug': f'sl{i}'}
+            self.make_recipe(**kwargs)
+
+        # patch used to modify per_page variable without changing
+        with patch('recipes.views.PER_PAGE', new=9):
+            response = self.client.get(reverse('recipes:home'))
+            recipes = response.context['recipes']
+            paginator = recipes.paginator
+
+            # search for number of pages and size of content displayed per page
+            self.assertEqual(paginator.num_pages, 3)
+            self.assertEqual(len(paginator.get_page(1)), 9)
+            self.assertEqual(len(paginator.get_page(2)), 9)
+            self.assertEqual(len(paginator.get_page(3)), 2)
