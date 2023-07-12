@@ -16,8 +16,6 @@ def home(request):
     recipes = Recipe.objects.filter(
         is_published=True).order_by('-id')
 
-    messages.success(request, "Caceta")
-
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
     return render(request, 'recipes/pages/home.html', context={
