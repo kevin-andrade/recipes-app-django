@@ -2,9 +2,11 @@ import os
 from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.db.models import Q
+from django.contrib import messages
 
 from utils.pagination import make_pagination
 from recipes.models import Recipe
+
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 9))
 
@@ -13,6 +15,8 @@ def home(request):
     recipes = Recipe.objects.all().order_by('-id')
     recipes = Recipe.objects.filter(
         is_published=True).order_by('-id')
+
+    messages.success(request, "Caceta")
 
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
