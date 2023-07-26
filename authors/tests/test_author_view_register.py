@@ -7,4 +7,4 @@ from authors import views
 class AuthorViewRegisterTest(TestCase):
     def test_author_view_register_is_correct(self):
         view = resolve(reverse('authors:register'))
-        self.assertIs(view.func, views.register)
+        self.assertIs(view.func, views.register_view)
