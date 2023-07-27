@@ -132,7 +132,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
-        msg = 'Password and password2 must be equal'
+        msg = 'Password must be equal'
         self.assertNotIn(msg, response.content.decode('utf-8'))
 
         # Not equal
