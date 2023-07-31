@@ -99,3 +99,20 @@ def dashboard(request):
             'recipes': recipes,
         }
     )
+
+
+@login_required(redirect_field_name="next", login_url='authors:login')
+def dashboard_recipe_edit(request, id):
+    recipe = Recipe.objects.filter(
+        is_published=False,
+        author=request.user,
+        pk=id,
+    )
+
+    return render(
+        request,
+        'authors/pages/dashboard_recipe.html',
+        context={
+            'recipe': recipe,
+        }
+    )
