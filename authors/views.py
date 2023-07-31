@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 
+from recipes.models import Recipe
 from .forms import RegisterForm, LoginForm
 
 
@@ -86,4 +87,15 @@ def logout_view(request):
 
 @login_required(redirect_field_name="next", login_url='authors:login')
 def dashboard(request):
-    return render(request, 'authors/pages/dashboard.html')
+    recipes = Recipe.objects.filter(
+        is_published=False,
+        author=request.user,
+    )
+
+    return render(
+        request,
+        'authors/pages/dashboard.html',
+        context={
+            'recipes': recipes,
+        }
+    )

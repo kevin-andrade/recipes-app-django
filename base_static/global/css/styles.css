@@ -424,6 +424,20 @@ h6 {
     margin: 1rem 0;
 }
 
+.authors-dashboard-container {
+    max-width: 64rem;
+    text-align: left;
+    margin: 0 auto;
+    padding: var(--spacing-gutter-medium);
+}
+
+.authors-dashboard-container h3,
+.authors-dashboard-container a,
+.authors-dashboard-container li {
+    list-style-type: none;
+    margin: 1rem 0;
+}
+
 /* Generics */
 
 .center {
