@@ -11,10 +11,30 @@ class AuthorRecipeForm(forms.ModelForm):
         add_attr(self.fields.get('title'), 'class', 'span-2')
         add_attr(self.fields.get('description'), 'class', 'span-2')
         add_attr(self.fields.get('preparation_steps'), 'class', 'span-2')
-        add_attr(self.fields.get('cover'), 'class', 'span-2')
 
     class Meta:
         model = Recipe
         fields = 'title', 'description', 'preparation_time', \
             'preparation_time_unit', 'servings', 'servings_unit', \
             'preparation_steps', 'cover'
+
+        widgets = {
+            'cover': forms.FileInput(
+                attrs={
+                    'class': 'span-2',
+                }
+            ),
+            'preparation_time_unit': forms.Select(
+                choices=(
+                    ('Minutes', 'Minutes'),
+                    ('Hours', 'Hours')
+                )
+            ),
+            'servings_unit': forms.Select(
+                choices=(
+                    ('Slices', 'Slices'),
+                    ('Pieces', 'Pieces'),
+                    ('Portions', 'Portions'),
+                )
+            )
+        }
