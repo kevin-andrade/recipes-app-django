@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 
 from recipes.models import Recipe
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, AuthorRecipeForm
 
 
 def register_view(request):
@@ -107,12 +107,20 @@ def dashboard_recipe_edit(request, id):
         is_published=False,
         author=request.user,
         pk=id,
+    ).first()
+
+    if not recipe:
+        raise Http404()
+
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        instance=recipe,
     )
 
     return render(
         request,
         'authors/pages/dashboard_recipe.html',
         context={
-            'recipe': recipe,
+            'form': form,
         }
     )
