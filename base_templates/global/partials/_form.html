@@ -10,7 +10,12 @@
     </div>
     {% endif %}
     
-    <form class="main-form" action="{{ form_action }}" method="POST">
+    <form 
+    class="main-form"
+    action="{{ form_action }}"
+    method="POST"
+    enctype="multipart/form-data">
+
         {% csrf_token %}
         <div class="form-content form-content-grid">
             {% for field in form  %}
@@ -36,7 +41,7 @@
 
         <div class="form-content form-content-grid">
             <div class="form-group">
-                <button type="submit">Enviar</button>
+                <button type="submit">Send</button>
             </div>
         </div>
 
