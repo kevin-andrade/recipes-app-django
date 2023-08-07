@@ -2,7 +2,7 @@
 <div class="recipe recipe-list-item">
 
     <div class="recipe-cover">
-        <a href="{% url 'recipes:recipe' recipe.id %}">
+        <a href="{{ recipe.get_absolute_url }}">
             {% if recipe.cover == '' or recipe.cover == null %}
                 <img class="recipe-cover-img-not" src="{% static 'recipes/images/image-not-found-optimized.svg' %}" alt="Image not found">
             {% else %}
@@ -13,7 +13,7 @@
     
     <div class="recipe-title-container">
         <h2 class="recipe-title">
-            <a href="{% url 'recipes:recipe' recipe.id %}">
+            <a href="{{ recipe.get_absolute_url }}">
                 {{ recipe.title }}
             </a>
         </h2>
