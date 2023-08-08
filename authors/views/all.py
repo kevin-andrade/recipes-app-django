@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 
 from recipes.models import Recipe
-from .forms import RegisterForm, LoginForm, AuthorRecipeForm
+from ..forms import RegisterForm, LoginForm, AuthorRecipeForm
 
 
 def register_view(request):

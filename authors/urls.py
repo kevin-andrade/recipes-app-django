@@ -1,6 +1,6 @@
 from django.urls import path
 
-from authors import views
+from . import views
 
 app_name = 'authors'
 
@@ -21,6 +21,6 @@ urlpatterns = [
         name='dashboard_recipe_delete'),
     path(
         'dashboard/recipe/<int:id>/edit/',
-        views.dashboard_recipe_edit,
+        views.DashboardRecipe.as_view(),
         name='dashboard_recipe_edit'),
 ]
