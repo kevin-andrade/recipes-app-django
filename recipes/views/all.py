@@ -51,8 +51,42 @@ class RecipeListViewCategory(RecipeListViewBase):
         )
         return qs
 
+    def get_context_data(self, *args, **kwargs):
+        cx = super().get_context_data(*args, **kwargs)
 
-class RecipeList
+        cx.update({
+                'title': f'{cx.get("recipes")[0].category.name} - category | ',
+        })
+        return cx
+
+
+class RecipeListSearch(RecipeListViewBase):
+    template_name = 'recipes/pages/search.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        search_term = self.request.GET.get('q', '').strip()
+
+        qs = qs.filter(
+            Q(
+                Q(title__icontains=search_term) |
+                Q(description__icontains=search_term),
+            ),
+            is_published=True,
+        )
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        cx = super().get_context_data(*args, **kwargs)
+        search_term = self.request.GET.get('q', '').strip()
+
+        cx.update({
+            'page_title': f'Search for "{search_term}"',
+            'search_term': search_term,
+            'additional_url_query': f'&q={search_term}',
+        })
+        return cx
+
 
 def home(request):
     recipes = Recipe.objects.all().order_by('-id')

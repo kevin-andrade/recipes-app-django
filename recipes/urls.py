@@ -6,10 +6,9 @@ app_name = 'recipes'
 
 urlpatterns = [
     path('', views.RecipeListViewHome.as_view(), name="home"),
-    path('recipes/search/', views.search, name="search"),
+    path('recipes/search/', views.RecipeListSearch.as_view(), name="search"),
     path('recipes/<int:id>/', views.recipe, name="recipe"),
     path(
         'recipes/category/<int:category_id>/',
-        views.RecipeListViewCategory.as_view(),
-        name="category"),
+        views.RecipeListViewCategory.as_view(), name="category"),
 ]
