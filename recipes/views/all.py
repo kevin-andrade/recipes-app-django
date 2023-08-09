@@ -19,7 +19,7 @@ class RecipeListViewBase(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        qs.filter(
+        qs = qs.filter(
             is_published=True
         )
         return qs
@@ -40,6 +40,19 @@ class RecipeListViewBase(ListView):
 class RecipeListViewHome(RecipeListViewBase):
     template_name = 'recipes/pages/home.html'
 
+
+class RecipeListViewCategory(RecipeListViewBase):
+    template_name = 'recipes/pages/category.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(
+            category__id=self.kwargs.get('category_id')
+        )
+        return qs
+
+
+class RecipeList
 
 def home(request):
     recipes = Recipe.objects.all().order_by('-id')
