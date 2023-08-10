@@ -8,7 +8,7 @@ from .test_recipe_base import RecipeTestBase
 class RecipeViewHomeTest(RecipeTestBase):
     def test_recipe_view_home_is_correct(self):
         view = resolve(reverse('recipes:home'))
-        self.assertIs(view.func, views.home)
+        self.assertIs(view.func.view_class, views.RecipeListViewHome)
 
     def test_recipe_home_view_returns_status_code_200_ok(self):
         response = self.client.get(reverse('recipes:home'))
@@ -57,7 +57,7 @@ class RecipeViewHomeTest(RecipeTestBase):
         self.make_recipe_in_batch(qtd=20)
 
         # patch used to modify per_page variable without changing
-        with patch('recipes.views.PER_PAGE', new=9):
+        with patch('recipes.views.all.PER_PAGE', new=9):
             response = self.client.get(reverse('recipes:home'))
             recipes = response.context['recipes']
             paginator = recipes.paginator
@@ -71,7 +71,7 @@ class RecipeViewHomeTest(RecipeTestBase):
     def test_invalid_page_query_uses_page_one(self):
         self.make_recipe_in_batch()
 
-        with patch('recipes.views.PER_PAGE', new=3):
+        with patch('recipes.views.all.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home') + '?page=12A')
             self.assertEqual(
                 response.context['recipes'].number,

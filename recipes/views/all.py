@@ -1,5 +1,4 @@
 import os
-from typing import Any, Dict
 from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.db.models import Q
@@ -50,6 +49,10 @@ class RecipeListViewCategory(RecipeListViewBase):
         qs = qs.filter(
             category__id=self.kwargs.get('category_id')
         )
+
+        if not qs:
+            raise Http404()
+
         return qs
 
     def get_context_data(self, *args, **kwargs):
@@ -75,6 +78,10 @@ class RecipeListSearch(RecipeListViewBase):
             ),
             is_published=True,
         )
+
+        if not search_term:
+            raise Http404()
+
         return qs
 
     def get_context_data(self, *args, **kwargs):
@@ -93,6 +100,12 @@ class RecipeDetail(DetailView):
     model = Recipe
     context_object_name = 'recipe'
     template_name = 'recipes/pages/recipe-view.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(is_published=True)
+
+        return qs
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)

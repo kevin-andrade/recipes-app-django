@@ -5,12 +5,12 @@ from .test_recipe_base import RecipeTestBase
 
 class RecipeViewDetailTest(RecipeTestBase):
     def test_recipe_view_detail_is_correct(self):
-        view = resolve(reverse('recipes:recipe', kwargs={'id': 1000}))
-        self.assertIs(view.func, views.recipe)
+        view = resolve(reverse('recipes:recipe', kwargs={'pk': 1000}))
+        self.assertIs(view.func.view_class, views.RecipeDetail)
 
     def test_recipe_view_detail_returns_404_if_no_recipes(self):
         response = self.client.get(reverse(
-            'recipes:recipe', kwargs={'id': 1000})
+            'recipes:recipe', kwargs={'pk': 1000})
         )
         self.assertEqual(response.status_code, 404)
 
@@ -18,7 +18,7 @@ class RecipeViewDetailTest(RecipeTestBase):
         # Need recipe.id for this test
         recipe = self.make_recipe()
         response = self.client.get(reverse(
-            'recipes:recipe', kwargs={'id': recipe.id}))
+            'recipes:recipe', kwargs={'pk': recipe.id}))
         self.assertTemplateUsed(response, 'recipes/pages/recipe-view.html')
 
     def test_recipe_detail_template_loads_correct_recipe(self):
@@ -27,7 +27,7 @@ class RecipeViewDetailTest(RecipeTestBase):
         self.make_recipe(title=needed_title)
 
         response = self.client.get(reverse(
-            'recipes:recipe', kwargs={'id': 1}
+            'recipes:recipe', kwargs={'pk': 1}
         ))
         content = response.content.decode('utf-8')
 
@@ -42,7 +42,7 @@ class RecipeViewDetailTest(RecipeTestBase):
         recipe = self.make_recipe(is_published=False)
 
         response = self.client.get(reverse(
-            'recipes:recipe', kwargs={'id': recipe.id}
+            'recipes:recipe', kwargs={'pk': recipe.id}
         ))
 
         # Check if one recipe is not published
