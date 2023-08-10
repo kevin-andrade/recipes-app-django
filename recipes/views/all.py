@@ -1,8 +1,9 @@
 import os
+from typing import Any, Dict
 from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.db.models import Q
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from utils.pagination import make_pagination
 from recipes.models import Recipe
@@ -86,6 +87,21 @@ class RecipeListSearch(RecipeListViewBase):
             'additional_url_query': f'&q={search_term}',
         })
         return cx
+
+
+class RecipeDetail(DetailView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'recipes/pages/recipe-view.html'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+
+        ctx.update({
+            'is_detail_page': True
+        })
+
+        return ctx
 
 
 def home(request):
