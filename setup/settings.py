@@ -29,7 +29,7 @@ SECRET_KEY = str(os.getenv('SECREY_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS: list[str] = ['*']
 
 
 # Application definition
