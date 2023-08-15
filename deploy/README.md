@@ -5,16 +5,8 @@ com as aulas do meu curso de Django na Udemy.
 
 ## Criando um servidor
 
-Como vamos usar um servidor na nuvem (cloud server), é interessante que você
-utilize algum serviço gratuito para isso. Recomendo a Google Cloud Platform.
+Google Cloud Platform
 
-Caso não tenha como usar a Google Cloud Platform, um servidor em máquina virtual
-também funciona perfeitamente. Porém, não será possível disponibilizar a
-aplicação online na Internet. VirtualBox (Windows, Linux e macOS intel),
-Parallels (macOS M1), UTM (macOS M1), são alguns dos softwares mencionados
-indicados para isso.
-
-Siga as instruções da aula para criar um servidor na Google Cloud Platform.
 
 ### Chaves SSH
 
@@ -141,4 +133,4 @@ pip install gunicorn
 
 ## Configurando o nginx
 
-Use o arquivo e as explicações disponibilizadas na aula.
+Abra o arquivo gunicorn.txt na pasta deploy
