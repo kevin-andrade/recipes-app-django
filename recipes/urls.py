@@ -5,10 +5,33 @@ from recipes import views
 app_name = 'recipes'
 
 urlpatterns = [
-    path('', views.RecipeListViewHome.as_view(), name="home"),
-    path('recipes/search/', views.RecipeListSearch.as_view(), name="search"),
-    path('recipes/<int:pk>/', views.RecipeDetail.as_view(), name="recipe"),
+    path(
+        '',
+        views.RecipeListViewHome.as_view(),
+        name="home"),
+
+    path(
+        'recipes/search/',
+        views.RecipeListSearch.as_view(),
+        name="search"),
+
+    path(
+        'recipes/<int:pk>/',
+        views.RecipeDetail.as_view(),
+        name="recipe"),
+
     path(
         'recipes/category/<int:category_id>/',
-        views.RecipeListViewCategory.as_view(), name="category"),
+        views.RecipeListViewCategory.as_view(),
+        name="category"),
+
+    path(
+        'recipes/api/v1/',
+        views.RecipeListViewHomeApi.as_view(),
+        name="recipe_api_v1"),
+
+    path(
+        'recipes/api/v1/<int:pk>/',
+        views.RecipeDetailApi.as_view(),
+        name="recipe_api_v1_detail"),
 ]
