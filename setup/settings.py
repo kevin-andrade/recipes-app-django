@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'recipes',
     'authors',
+    'tag',
     'debug_toolbar',
 ]
 
