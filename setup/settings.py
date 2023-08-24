@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
 from dotenv import load_dotenv
 from django.contrib.messages import constants
+from utils.environment import parse_comma_sep_str_to_list, get_env_variable
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +31,13 @@ SECRET_KEY = str(os.getenv('SECREY_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS: list[str] = ['*']
+ALLOWED_HOSTS: list[str] = parse_comma_sep_str_to_list(
+    get_env_variable('ALLOWED_HOST')
+)
+
+CSRF_TRUSTED_ORIGINS: list[str] = parse_comma_sep_str_to_list(
+    get_env_variable('ALLOWED_HOSTS')
+)
 
 
 # Application definition
