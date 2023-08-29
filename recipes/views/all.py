@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.utils import translation
+from django.utils.translation import gettext as _
 
 from utils.pagination import make_pagination
 from recipes.models import Recipe
@@ -84,8 +85,12 @@ class RecipeListViewCategory(RecipeListViewBase):
     def get_context_data(self, *args, **kwargs):
         cx = super().get_context_data(*args, **kwargs)
 
+        category_translation = _('Category')
+
         cx.update({
-                'title': f'{cx.get("recipes")[0].category.name} - category | ',
+                'title':
+                f'{cx.get("recipes")[0].category.name} - '
+                f'{category_translation} | ',
         })
         return cx
 
