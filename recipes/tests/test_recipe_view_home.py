@@ -57,7 +57,7 @@ class RecipeViewHomeTest(RecipeTestBase):
         self.make_recipe_in_batch(qtd=20)
 
         # patch used to modify per_page variable without changing
-        with patch('recipes.views.all.PER_PAGE', new=9):
+        with patch('recipes.views.site.PER_PAGE', new=9):
             response = self.client.get(reverse('recipes:home'))
             recipes = response.context['recipes']
             paginator = recipes.paginator
@@ -71,7 +71,7 @@ class RecipeViewHomeTest(RecipeTestBase):
     def test_invalid_page_query_uses_page_one(self):
         self.make_recipe_in_batch()
 
-        with patch('recipes.views.all.PER_PAGE', new=3):
+        with patch('recipes.views.site.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home') + '?page=12A')
             self.assertEqual(
                 response.context['recipes'].number,
