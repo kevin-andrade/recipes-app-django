@@ -5,7 +5,7 @@
     <div class="recipe-cover">
         <a href="{{ recipe.get_absolute_url }}">
             {% if recipe.cover == '' or recipe.cover == null %}
-                <img class="recipe-cover-img-not" src="{% static 'recipes/images/image-not-found-optimized.svg' %}" alt="Image not found">
+                <img class="recipe-cover-img-not" src="{% static 'global/css/images/image-not-found-optimized.svg' %}" alt="Image not found">
             {% else %}
                 <img src="{{ recipe.cover.url }}" alt="Temporary">
             {% endif %}    
