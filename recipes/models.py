@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from django.forms import ValidationError
 from tag.models import Tag
 from django.db import models
+from django.db.models.functions import Concat
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.db.models import F, Value
 from PIL import Image
 
 
@@ -16,6 +18,19 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class RecipeManager(models.Manager):
+    def get_published(self):
+        return self.filter(
+            is_published=True
+        ).annotate(
+            author_full_name=Concat(
+                F('author__first_name'), Value(' '),
+                F('author__last_name'), Value(' ('),
+                F('author__username'), Value(')'),
+            )
+        )
 
 
 class Recipe(models.Model):
