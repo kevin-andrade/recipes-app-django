@@ -23,7 +23,7 @@ def recipe_api_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(
-            serializer.validated_data,
+            serializer.data,
             status=status.HTTP_201_CREATED
         )
 

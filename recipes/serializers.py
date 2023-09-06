@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 
 from tag.models import Tag
 from .models import Recipe
+from authors.validators import AuthorRecipeValidator
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -15,9 +15,11 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = [
-            'id', 'title', 'description', 'public',
-            'preparation', 'category', 'author', 'tags',
-            'tags_objects', 'tags_links',
+            'id', 'title', 'description', 'author',
+            'category', 'tags', 'public', 'preparation',
+            'tag_objects', 'tag_links',
+            'preparation_time', 'preparation_time_unit', 'servings',
+            'servings_unit', 'preparation_steps', 'cover'
         ]
 
     public = serializers.BooleanField(
@@ -30,12 +32,12 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
-    tags_objects = TagSerializer(
+    tag_objects = TagSerializer(
         source='tags',
         many=True,
         read_only=True
     )
-    tags_links = serializers.HyperlinkedRelatedField(
+    tag_links = serializers.HyperlinkedRelatedField(
         view_name="recipes:recipe_api_v2_tag",
         source="tags",
         many=True,
@@ -44,3 +46,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def get_preparation(self, recipe):
         return f'{recipe.preparation_time} {recipe.preparation_time_unit}'
+
+    def validate(self, attrs):
+        super_validate = super().validate(attrs)
+        AuthorRecipeValidator(
+            data=attrs,
+            ErrorClass=serializers.ValidationError,
+        )
+        return super_validate
