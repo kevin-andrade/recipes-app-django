@@ -65,37 +65,3 @@ class RecipeAPIv2Detail(APIView):
         recipe = self.get_recipe(pk)
         recipe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-@api_view(http_method_names=['GET', 'PATCH', 'DELETE'])
-def recipe_api_detail(request, pk):
-
-    if request.method == 'GET':
-
-        return Response(serializer.data)
-    elif request.method == 'PATCH':
-        serializer = RecipeSerializer(
-            instance=recipe,
-            data=request.data,
-            many=False,
-            partial=True,
-            context={"request": request}
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-
-@api_view()
-def tag_api_detail(request, pk):
-    tag = get_object_or_404(
-        Tag.objects.all(),
-        pk=pk
-    )
-    serializer = TagSerializer(
-        instance=tag,
-        many=False,
-        context={"request": request}
-    )
-    return Response(serializer.data)
